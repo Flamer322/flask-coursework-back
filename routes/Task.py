@@ -6,29 +6,6 @@ import json
 tasks = Blueprint('tasks', __name__, template_folder='templates')
 
 
-@tasks.route('/tasks/<task_id>', methods=['POST'])
-def edit_task(task_id):
-    type_json = json.loads(request.get_data())
-    action_type = type_json['type']
-    if action_type == 'change':
-        task = Task.query.get(task_id)
-        task.done = not task.done
-        db.session.add(task)
-        db.session.commit()
-        response = Response(
-            status=200,
-        )
-        return response
-    if action_type == 'delete':
-        task = Task.query.get(task_id)
-        db.session.delete(task)
-        db.session.commit()
-        response = Response(
-            status=200,
-        )
-        return response
-
-
 @tasks.route('/tasks', methods=['GET'])
 def get_tasks():
     tasks = Task.query.all()
@@ -61,5 +38,28 @@ def add_task():
         response=str(new_task.id),
         status=200,
         mimetype='text/plain'
+    )
+    return response
+
+
+@tasks.route('/tasks/<task_id>', methods=['PUT'])
+def edit_task(task_id):
+    task = Task.query.get(task_id)
+    task.done = not task.done
+    db.session.add(task)
+    db.session.commit()
+    response = Response(
+        status=200,
+    )
+    return response
+
+
+@tasks.route('/tasks/<task_id>', methods=['DELETE'])
+def delete_task(task_id):
+    task = Task.query.get(task_id)
+    db.session.delete(task)
+    db.session.commit()
+    response = Response(
+        status=200,
     )
     return response
