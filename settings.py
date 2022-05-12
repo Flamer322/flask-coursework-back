@@ -6,7 +6,9 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, inspect
 
-app = Flask(__name__)
+app = Flask(__name__,
+            static_url_path='',
+            static_folder='./public')
 CORS(app)
 
 load_dotenv()
@@ -21,3 +23,8 @@ migrate = Migrate(app, db)
 engine = create_engine(SQLALCHEMY_DATABASE_URI)
 if not inspect(engine).has_table("tasks"):
     db.create_all()
+
+
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
