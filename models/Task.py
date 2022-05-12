@@ -1,7 +1,5 @@
-from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
-
-db = SQLAlchemy()
+from settings import db
 
 
 class Task(db.Model):

@@ -1,9 +1,8 @@
 from flask import Blueprint, request, Response
 from models.Task import Task
-from flask_sqlalchemy import SQLAlchemy
+from settings import db
 import json
 
-db = SQLAlchemy()
 tasks = Blueprint('tasks', __name__, template_folder='templates')
 
 

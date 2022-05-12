@@ -1,9 +1,8 @@
 from flask import Blueprint, request, Response
 from models.User import User
-from flask_sqlalchemy import SQLAlchemy
+from settings import db
 import json
 
-db = SQLAlchemy()
 users = Blueprint('users', __name__, template_folder='templates')
 
 
